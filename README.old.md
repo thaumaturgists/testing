@@ -174,31 +174,7 @@ If your app fetches data from external sources, consider adding a `proxy` settin
 ```json
 "proxy": "https://your-api-url.com"
 ```
-```
-Yes! The `proxy` setting in `package.json` helps mitigate **CORS (Cross-Origin Resource Sharing)** issues when making API requests from your development environment. It essentially redirects your frontend requests through the development server, avoiding browser-enforced restrictions on cross-origin requests.
 
-### **Examples of APIs that might require this setup:**
-1. **REST APIs**  
-   - If you're fetching data from an external API like:  
-     ```js
-     fetch("https://your-api-url.com/data")
-     ```
-   - Your local React development server might block the request due to CORS.
-   - Adding `"proxy": "https://your-api-url.com"` in `package.json` allows React’s development server to tunnel requests without issues.
-
-2. **Authentication APIs**  
-   - If you're integrating OAuth, Firebase authentication, or any backend authentication service, CORS restrictions might apply.
-   - Using a proxy can help ensure login requests go through during development.
-
-3. **Third-Party Services**  
-   - Services like OpenWeather, Stripe, or payment processing APIs often have strict CORS policies.
-   - Proxying in development ensures smooth API communication before deploying a backend solution.
-
-However, this only works in **development mode** with tools like React Scripts. For production, you'll need to handle CORS properly on the backend via headers (`Access-Control-Allow-Origin`), using middleware like **CORS in Express.js**, or setting up an API gateway.
-
-Let me know if you need help with specific API configurations!
-
-```
 This helps avoid cross-origin issues when developing locally.
 
 #### **Step 6: Optimize Build for Performance**
@@ -262,9 +238,25 @@ Thumbs.db
 
 This `.gitignore` ensures your repository stays clean by preventing unnecessary files from being tracked.
 
-# package.json and tsconfig.json in full should look like
+# Error no existing lockfile
 
-Absolutely! Here’s a solid `package.json` and `tsconfig.json` setup tailored for your React TypeScript app deployed on GitHub Pages.
+Looks like `npm audit` is asking for a lockfile, which is missing in your project. No worries—just run the following command to generate one:
+
+```bash
+npm i --package-lock-only
+```
+
+This will create a `package-lock.json` file without installing dependencies, allowing `npm audit` to properly scan your project for vulnerabilities.
+
+Once that’s done, you can retry:
+
+```bash
+npm audit
+```
+
+# `package.json` and `tsconfig.json`
+
+Here’s a solid `package.json` and `tsconfig.json` setup tailored for your React TypeScript app deployed on GitHub Pages.
 
 ### `package.json`
 This configuration ensures smooth package management, optimized builds, and GitHub Pages deployment.
@@ -320,4 +312,5 @@ This ensures proper TypeScript support for your React project.
 This config enforces modern TypeScript best practices while keeping the setup lightweight.
 
 Your project should now be fully optimized for a simple deployment! Need any tweaks? 🚀
+
 
